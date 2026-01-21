@@ -1,0 +1,2896 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CorexaEXAM - Sistem Ujian Esai Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* VARIABLES - LIGHT MODE DEFAULT */
+        :root {
+            /* Light Theme */
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --warning: #f59e0b;
+            --warning-dark: #d97706;
+            --info: #06b6d4;
+            --info-dark: #0891b2;
+            
+            /* Light Theme Colors */
+            --bg-color: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            
+            /* Header */
+            --header-bg: linear-gradient(135deg, #2563eb, #1d4ed8);
+            --header-text: #ffffff;
+            
+            /* Cards */
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            
+            /* Inputs */
+            --input-bg: #ffffff;
+            --input-border: #cbd5e1;
+            --input-text: #1e293b;
+            
+            /* Buttons */
+            --btn-primary: #2563eb;
+            --btn-primary-hover: #1d4ed8;
+            --btn-success: #10b981;
+            --btn-success-hover: #059669;
+            
+            /* Timer */
+            --timer-bg: linear-gradient(135deg, #ef4444, #dc2626);
+            
+            /* Tabs */
+            --tab-bg: #f1f5f9;
+            --tab-active: #ffffff;
+            
+            /* Settings */
+            --settings-bg: #ffffff;
+            --settings-border: #e2e8f0;
+        }
+
+        /* DARK THEME */
+        .dark-mode {
+            /* Dark Theme Colors */
+            --bg-color: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: #334155;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            
+            /* Header */
+            --header-bg: linear-gradient(135deg, #1e293b, #0f172a);
+            --header-text: #f1f5f9;
+            
+            /* Cards */
+            --card-bg: #1e293b;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            
+            /* Inputs */
+            --input-bg: #334155;
+            --input-border: #475569;
+            --input-text: #f1f5f9;
+            
+            /* Buttons */
+            --btn-primary: #3b82f6;
+            --btn-primary-hover: #60a5fa;
+            --btn-success: #10b981;
+            --btn-success-hover: #34d399;
+            
+            /* Timer */
+            --timer-bg: linear-gradient(135deg, #dc2626, #991b1b);
+            
+            /* Tabs */
+            --tab-bg: #334155;
+            --tab-active: #475569;
+            
+            /* Settings */
+            --settings-bg: #1e293b;
+            --settings-border: #475569;
+        }
+
+        /* RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* UTILITY CLASSES */
+        .hidden { display: none !important; }
+        .visible { display: block !important; }
+        .text-center { text-align: center; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .w-100 { width: 100%; }
+        .d-flex { display: flex; }
+        .flex-column { flex-direction: column; }
+        .align-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-1 { gap: 0.5rem; }
+        .gap-2 { gap: 1rem; }
+        .flex-1 { flex: 1; }
+
+        /* MAIN CONTAINER */
+        .app-container {
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* HEADER */
+        .header {
+            background: var(--header-bg);
+            color: var(--header-text);
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            font-size: 1.75rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        /* USER INFO & SETTINGS */
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .user-info:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        .settings-btn {
+            background: none;
+            border: none;
+            color: var(--header-text);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .settings-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* SETTINGS PANEL */
+        .settings-panel {
+            position: fixed;
+            top: 70px;
+            right: 1rem;
+            background-color: var(--settings-bg);
+            border: 1px solid var(--settings-border);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            width: 300px;
+            z-index: 1001;
+            overflow: hidden;
+            display: none;
+        }
+
+        .settings-panel.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .settings-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .settings-body {
+            padding: 1.25rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .settings-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .settings-label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .theme-toggle {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--bg-secondary);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .theme-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            background: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .theme-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .contact-info {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-text {
+            flex: 1;
+        }
+
+        .contact-title {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* LOGIN PAGE */
+        .login-page {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 20%);
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-card {
+            background-color: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .login-header {
+            background: var(--header-bg);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        .login-logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header span {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .login-body {
+            padding: 2rem;
+        }
+
+        /* ROLE SELECTOR */
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .role-btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .role-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .role-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .role-btn.active .role-icon,
+        .role-btn.active .role-text {
+            color: white;
+        }
+
+        .role-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .role-text {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        /* FORM ELEMENTS */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem;
+            background-color: var(--input-bg);
+            border: 2px solid var(--input-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--input-text);
+            transition: border-color 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--btn-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--btn-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-success {
+            background-color: var(--btn-success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: var(--btn-success-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: var(--warning-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        /* DASHBOARD */
+        .dashboard {
+            padding-top: 70px;
+            min-height: 100vh;
+        }
+
+        /* TABS */
+        .tabs-container {
+            position: sticky;
+            top: 70px;
+            z-index: 900;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 0.5rem;
+            padding: 0.25rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            flex: 0 0 auto;
+            padding: 0.75rem 1.25rem;
+            background: var(--tab-bg);
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: var(--border-color);
+        }
+
+        .tab.active {
+            background: var(--tab-active);
+            color: var(--primary);
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* EXAMS LIST */
+        .exams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .exam-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .exam-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px var(--shadow-color);
+        }
+
+        .exam-header {
+            background: var(--header-bg);
+            color: white;
+            padding: 1.25rem;
+        }
+
+        .exam-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .exam-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+
+        .exam-body {
+            padding: 1.25rem;
+        }
+
+        .exam-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .exam-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .exam-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+        }
+
+        /* QUESTION FORM */
+        .question-form {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .question-item {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .question-number {
+            position: absolute;
+            top: -12px;
+            left: 1rem;
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .answer-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px dashed var(--border-color);
+        }
+
+        .answer-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .score-input {
+            width: 80px;
+            padding: 0.5rem;
+            background-color: var(--input-bg);
+            border: 2px solid var(--input-border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--input-text);
+        }
+
+        /* STUDENT EXAM */
+        .exam-section {
+            padding: 1.5rem;
+            min-height: calc(100vh - 70px);
+            background-color: var(--bg-color);
+        }
+
+        .exam-info-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--primary);
+        }
+
+        .timer-container {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 100;
+        }
+
+        .timer {
+            background: var(--timer-bg);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .question-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .essay-answer {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            background-color: var(--input-bg);
+            border: 2px solid var(--input-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--input-text);
+            resize: vertical;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .essay-answer:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .question-nav {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+            z-index: 90;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        /* GRADING */
+        .grading-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .student-answer {
+            background-color: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.75rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        /* RESULTS */
+        .results-table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-top: 1rem;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--card-bg);
+        }
+
+        .results-table th {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .results-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px var(--shadow-color);
+            animation: modalSlide 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: var(--header-bg);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            background-color: var(--bg-secondary);
+            border-radius: 0 0 16px 16px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        /* ALERTS */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .alert-info {
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning);
+            color: var(--warning);
+        }
+
+        /* BADGE */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .exams-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .role-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .exam-actions {
+                flex-direction: column;
+            }
+            
+            .question-nav {
+                flex-direction: column;
+            }
+            
+            .timer-container {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            
+            .timer {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .settings-panel {
+                position: fixed;
+                top: 70px;
+                left: 1rem;
+                right: 1rem;
+                width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-page {
+                padding: 0.5rem;
+            }
+            
+            .login-header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .login-body {
+                padding: 1.5rem;
+            }
+            
+            .dashboard {
+                padding: 70px 0.75rem 0;
+            }
+            
+            .tab-content {
+                padding: 1rem 0;
+            }
+            
+            .modal-content {
+                margin: 0.5rem;
+            }
+        }
+
+        /* LOADING */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            gap: 1rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-page">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h2>CorexaEXAM</h2>
+                    <span>Sistem Ujian Esai Online</span>
+                </div>
+                
+                <div class="login-body">
+                    <div class="role-selector">
+                        <button class="role-btn active" id="studentRoleBtn">
+                            <i class="fas fa-user-graduate role-icon"></i>
+                            <span class="role-text">Siswa</span>
+                        </button>
+                        <button class="role-btn" id="adminRoleBtn">
+                            <i class="fas fa-user-tie role-icon"></i>
+                            <span class="role-text">Admin</span>
+                        </button>
+                    </div>
+
+                    <!-- Student Login Form -->
+                    <div id="studentLoginForm">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user"></i> Nama Lengkap
+                            </label>
+                            <input type="text" class="form-control" id="studentName" 
+                                   placeholder="Masukkan nama lengkap" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-school"></i> Nama Sekolah
+                            </label>
+                            <input type="text" class="form-control" id="studentSchool" 
+                                   placeholder="Harus sesuai yang dibuat admin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-users"></i> Kelas
+                            </label>
+                            <input type="text" class="form-control" id="studentClass" 
+                                   placeholder="Contoh: X IPA 1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-id-card"></i> Nomor Peserta
+                            </label>
+                            <input type="text" class="form-control" id="studentNumber" 
+                                   placeholder="Masukkan nomor peserta" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-key"></i> Password Ujian
+                            </label>
+                            <input type="password" class="form-control" id="studentPassword" 
+                                   placeholder="Password yang dibuat admin" required>
+                        </div>
+                        
+                        <button class="btn btn-success btn-block" id="studentLoginBtn">
+                            <i class="fas fa-play-circle"></i> Mulai Ujian
+                        </button>
+                    </div>
+
+                    <!-- Admin Login Form -->
+                    <div id="adminLoginForm" class="hidden">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user"></i> Username Admin
+                            </label>
+                            <input type="text" class="form-control" id="adminUsername" 
+                                   placeholder="Masukkan username admin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-lock"></i> Password Admin
+                            </label>
+                            <input type="password" class="form-control" id="adminPassword" 
+                                   placeholder="Masukkan password admin" required>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-block" id="adminLoginBtn">
+                            <i class="fas fa-sign-in-alt"></i> Login sebagai Admin
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container hidden" id="mainApp">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap logo-icon"></i>
+                    <div class="logo-text">
+                        <h1>CorexaEXAM</h1>
+                        <span id="pageSubtitle">Sistem Ujian</span>
+                    </div>
+                </div>
+                
+                <div class="user-section">
+                    <div class="user-info" id="userInfoBtn">
+                        <div class="user-avatar">
+                            <i class="fas fa-user" id="userIcon"></i>
+                        </div>
+                        <div class="user-details">
+                            <div class="user-name" id="userName">Administrator</div>
+                            <div class="user-role" id="userRole">Admin</div>
+                        </div>
+                    </div>
+                    <button class="settings-btn" id="settingsBtn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-header">
+                <div class="settings-title">
+                    <i class="fas fa-cog"></i>
+                    Pengaturan
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="settings-group">
+                    <label class="settings-label">Tema Tampilan</label>
+                    <div class="theme-toggle">
+                        <button class="theme-btn active" id="lightThemeBtn">
+                            <i class="fas fa-sun"></i> Terang
+                        </button>
+                        <button class="theme-btn" id="darkThemeBtn">
+                            <i class="fas fa-moon"></i> Gelap
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-group" id="adminSettingsGroup">
+                    <label class="settings-label">Pengaturan Admin</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="adminNewUsername" 
+                               placeholder="Username baru">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="adminCurrentPassword" 
+                               placeholder="Password saat ini">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="adminNewPassword" 
+                               placeholder="Password baru">
+                    </div>
+                    <button class="btn btn-primary btn-block btn-sm" id="updateAdminBtn">
+                        <i class="fas fa-save"></i> Update Admin
+                    </button>
+                </div>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-title">Dukungan Teknis</div>
+                            <div class="contact-value">CorexaEXAM Support</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-title">Daftar sebagai Admin</div>
+                            <div class="contact-value">085823751855</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-title">Versi Aplikasi</div>
+                            <div class="contact-value">CorexaEXAM v2.0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-danger btn-block mt-3" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard" id="dashboard">
+            <!-- Admin Dashboard -->
+            <div id="adminDashboard" class="hidden">
+                <!-- Tabs -->
+                <div class="tabs-container">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="exams">
+                            <i class="fas fa-clipboard-list"></i> Ujian
+                        </button>
+                        <button class="tab" data-tab="create">
+                            <i class="fas fa-plus-circle"></i> Buat
+                        </button>
+                        <button class="tab" data-tab="questions">
+                            <i class="fas fa-question-circle"></i> Soal
+                        </button>
+                        <button class="tab" data-tab="grading">
+                            <i class="fas fa-check-double"></i> Nilai
+                        </button>
+                        <button class="tab" data-tab="results">
+                            <i class="fas fa-chart-bar"></i> Hasil
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab Contents -->
+                <div class="tab-content active" id="examsTab">
+                    <h2 class="mb-2">Daftar Ujian</h2>
+                    <div class="exams-grid" id="examsList">
+                        <!-- Exams will be loaded here -->
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <button class="btn btn-primary" id="refreshExamsBtn">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="createTab">
+                    <h2 class="mb-2">Buat Ujian Baru</h2>
+                    
+                    <div class="question-form">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-book"></i> Mata Pelajaran
+                            </label>
+                            <input type="text" class="form-control" id="examSubject" 
+                                   placeholder="Contoh: Matematika" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-heading"></i> Judul Ujian
+                            </label>
+                            <input type="text" class="form-control" id="examTitle" 
+                                   placeholder="Contoh: Ujian Tengah Semester" required>
+                        </div>
+                        
+                        <div class="d-flex gap-2 mb-2">
+                            <div class="form-group flex-1">
+                                <label class="form-label">
+                                    <i class="fas fa-clock"></i> Durasi (menit)
+                                </label>
+                                <input type="number" class="form-control" id="examDuration" 
+                                       value="120" min="30" max="300" required>
+                            </div>
+                            
+                            <div class="form-group flex-1">
+                                <label class="form-label">
+                                    <i class="fas fa-calendar-alt"></i> Tanggal Ujian
+                                </label>
+                                <input type="datetime-local" class="form-control" id="examDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-school"></i> Sekolah Peserta
+                            </label>
+                            <input type="text" class="form-control" id="examSchool" 
+                                   placeholder="Nama sekolah peserta" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-key"></i> Password Ujian
+                            </label>
+                            <input type="text" class="form-control" id="examPassword" 
+                                   placeholder="Password untuk login siswa" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-info-circle"></i> Petunjuk Ujian
+                            </label>
+                            <textarea class="form-control" id="examInstructions" rows="3"
+                                      placeholder="Masukkan petunjuk pengerjaan"></textarea>
+                        </div>
+                        
+                        <button class="btn btn-success btn-block" id="createExamBtn">
+                            <i class="fas fa-save"></i> Simpan Ujian
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="questionsTab">
+                    <h2 class="mb-2">Kelola Soal Ujian</h2>
+                    
+                    <div class="form-group mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-clipboard-check"></i> Pilih Ujian
+                        </label>
+                        <select class="form-control" id="selectExam">
+                            <option value="">Pilih ujian...</option>
+                        </select>
+                    </div>
+                    
+                    <div id="questionsList">
+                        <!-- Questions will be loaded here -->
+                    </div>
+                    
+                    <div class="question-form">
+                        <h3 class="mb-2">
+                            <i class="fas fa-plus"></i> Tambah Soal Baru
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-question"></i> Pertanyaan
+                            </label>
+                            <textarea class="form-control" id="questionText" rows="4"
+                                      placeholder="Masukkan pertanyaan esai" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-key"></i> Kunci Jawaban
+                            </label>
+                            <textarea class="form-control" id="questionAnswerKey" rows="3"
+                                      placeholder="Masukkan kunci jawaban"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-star"></i> Bobot Nilai
+                            </label>
+                            <input type="number" class="form-control" id="questionWeight" 
+                                   value="10" min="1" max="100" required>
+                        </div>
+                        
+                        <button class="btn btn-success btn-block" id="addQuestionBtn">
+                            <i class="fas fa-plus"></i> Tambah Soal
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="gradingTab">
+                    <h2 class="mb-2">Penilaian Ujian</h2>
+                    
+                    <div class="form-group mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-filter"></i> Filter Ujian
+                        </label>
+                        <select class="form-control" id="selectExamForGrading">
+                            <option value="">Pilih ujian...</option>
+                        </select>
+                    </div>
+                    
+                    <div id="gradingList">
+                        <!-- Student answers for grading will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="tab-content" id="resultsTab">
+                    <h2 class="mb-2">Hasil Ujian</h2>
+                    
+                    <div class="form-group mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-filter"></i> Pilih Ujian
+                        </label>
+                        <select class="form-control" id="selectExamForResults">
+                            <option value="">Pilih ujian...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="results-table-container">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Kelas</th>
+                                    <th>Nilai</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTableBody">
+                                <!-- Results will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Exam -->
+            <div id="studentExam" class="hidden">
+                <div class="exam-section">
+                    <!-- Timer -->
+                    <div class="timer-container">
+                        <div class="timer" id="timer">
+                            <i class="fas fa-clock"></i>
+                            <span id="timerDisplay">120:00</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Exam Info -->
+                    <div class="exam-info-card">
+                        <h2 id="examTitleDisplay">Ujian</h2>
+                        <div class="exam-meta mb-2">
+                            <div class="exam-meta-item">
+                                <i class="fas fa-book"></i>
+                                <span id="examSubjectDisplay">-</span>
+                            </div>
+                            <div class="exam-meta-item">
+                                <i class="fas fa-user-graduate"></i>
+                                <span id="studentNameDisplay">-</span>
+                            </div>
+                            <div class="exam-meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span id="examDurationDisplay">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>Petunjuk:</strong>
+                                <p id="examInstructionsDisplay" class="mt-1">
+                                    Jawablah semua pertanyaan dengan jelas dan lengkap.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Questions -->
+                    <div id="questionsContainer">
+                        <!-- Questions will be loaded here -->
+                    </div>
+                    
+                    <!-- Navigation -->
+                    <div class="question-nav">
+                        <button class="btn btn-primary flex-1" id="saveAnswersBtn">
+                            <i class="fas fa-save"></i> Simpan
+                        </button>
+                        <button class="btn btn-success flex-1" id="submitExamBtn">
+                            <i class="fas fa-paper-plane"></i> Kumpulkan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="submitModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Konfirmasi</h3>
+            </div>
+            <div class="modal-body">
+                <p class="mb-2">Apakah Anda yakin ingin mengumpulkan jawaban?</p>
+                <p class="mb-2">Setelah dikumpulkan, Anda tidak dapat mengubah jawaban lagi.</p>
+                <div class="alert alert-info">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <strong>Waktu tersisa:</strong>
+                        <div id="remainingTimeModal">-</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelSubmitBtn">Batal</button>
+                <button class="btn btn-success" id="confirmSubmitBtn">Ya, Kumpulkan</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-check-circle"></i> Ujian Selesai</h3>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <i class="fas fa-check-circle fa-4x" style="color: var(--secondary);"></i>
+                    <h3 class="mt-2">Jawaban Telah Dikumpulkan!</h3>
+                    <p class="mb-2">Jawaban Anda telah berhasil dikirim.</p>
+                    
+                    <div class="alert alert-info mt-2">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <strong>Informasi:</strong>
+                            <p>Hasil ujian akan diumumkan setelah guru selesai melakukan penilaian.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="backToHomeBtn">
+                    <i class="fas fa-home"></i> Kembali ke Login
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="gradeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Penilaian Jawaban</h3>
+            </div>
+            <div class="modal-body" id="gradeModalBody">
+                <!-- Grading form will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelGradeBtn">Batal</button>
+                <button class="btn btn-success" id="saveGradeBtn">Simpan Nilai</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CorexaEXAM - Sistem Ujian Esai Online v2.0
+        class ExamSystem {
+            constructor() {
+                this.exams = JSON.parse(localStorage.getItem('corexaexams')) || [];
+                this.students = JSON.parse(localStorage.getItem('corexastudents')) || [];
+                this.admins = JSON.parse(localStorage.getItem('corexaadmins')) || [
+                    { username: 'admin', password: 'admin123', name: 'Administrator' }
+                ];
+                this.results = JSON.parse(localStorage.getItem('corexaresults')) || [];
+                this.settings = JSON.parse(localStorage.getItem('corexasettings')) || {
+                    theme: 'light'
+                };
+                this.currentUser = null;
+                this.currentExam = null;
+                this.currentStudent = null;
+                
+                if (this.exams.length === 0) {
+                    this.initializeSampleData();
+                }
+                
+                this.applyTheme();
+            }
+            
+            initializeSampleData() {
+                // Sample exam
+                const sampleExam = {
+                    id: 'EXAM001',
+                    title: 'Ujian Matematika Kelas X',
+                    subject: 'Matematika',
+                    duration: 60,
+                    password: 'matematika123',
+                    school: 'SMA Negeri 1 Jakarta',
+                    startDate: new Date(Date.now() + 86400000).toISOString(),
+                    instructions: 'Jawablah semua pertanyaan dengan jelas dan lengkap. Kerjakan dengan jujur dan mandiri.',
+                    status: 'active',
+                    questions: [
+                        {
+                            id: 1,
+                            text: 'Jelaskan konsep turunan dalam matematika dan berikan contoh penerapannya dalam kehidupan sehari-hari!',
+                            answerKey: 'Turunan adalah pengukuran perubahan fungsi terhadap variabelnya. Contoh penerapan: menghitung kecepatan sesaat dari fungsi posisi.',
+                            weight: 30
+                        },
+                        {
+                            id: 2,
+                            text: 'Selesaikan persamaan kuadrat berikut: x² + 5x + 6 = 0. Jelaskan langkah-langkah penyelesaiannya!',
+                            answerKey: 'x² + 5x + 6 = 0\n(x + 2)(x + 3) = 0\nx = -2 atau x = -3',
+                            weight: 20
+                        }
+                    ]
+                };
+                
+                this.exams.push(sampleExam);
+                this.saveData();
+            }
+            
+            saveData() {
+                localStorage.setItem('corexaexams', JSON.stringify(this.exams));
+                localStorage.setItem('corexastudents', JSON.stringify(this.students));
+                localStorage.setItem('corexaadmins', JSON.stringify(this.admins));
+                localStorage.setItem('corexaresults', JSON.stringify(this.results));
+                localStorage.setItem('corexasettings', JSON.stringify(this.settings));
+            }
+            
+            applyTheme() {
+                if (this.settings.theme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+            }
+            
+            toggleTheme() {
+                this.settings.theme = this.settings.theme === 'light' ? 'dark' : 'light';
+                this.saveData();
+                this.applyTheme();
+                return this.settings.theme;
+            }
+            
+            // Admin methods
+            adminLogin(username, password) {
+                const admin = this.admins.find(a => a.username === username && a.password === password);
+                if (admin) {
+                    this.currentUser = {
+                        type: 'admin',
+                        id: admin.username,
+                        name: admin.name
+                    };
+                    return true;
+                }
+                return false;
+            }
+            
+            updateAdminCredentials(currentPassword, newUsername, newPassword) {
+                const admin = this.admins.find(a => a.password === currentPassword);
+                if (!admin) {
+                    return { success: false, message: 'Password saat ini salah' };
+                }
+                
+                if (newUsername && newUsername.trim()) {
+                    admin.username = newUsername.trim();
+                    if (this.currentUser) {
+                        this.currentUser.id = admin.username;
+                        this.currentUser.name = admin.name;
+                    }
+                }
+                
+                if (newPassword && newPassword.trim()) {
+                    admin.password = newPassword.trim();
+                }
+                
+                this.saveData();
+                return { 
+                    success: true, 
+                    message: 'Data admin berhasil diperbarui',
+                    admin: admin
+                };
+            }
+            
+            createExam(examData) {
+                const newExam = {
+                    id: 'EXAM' + Date.now(),
+                    ...examData,
+                    createdAt: new Date().toISOString(),
+                    status: 'active',
+                    questions: []
+                };
+                this.exams.push(newExam);
+                this.saveData();
+                return newExam;
+            }
+            
+            addQuestion(examId, question) {
+                const exam = this.exams.find(e => e.id === examId);
+                if (exam) {
+                    const newQuestion = {
+                        id: exam.questions.length + 1,
+                        ...question
+                    };
+                    exam.questions.push(newQuestion);
+                    this.saveData();
+                    return newQuestion;
+                }
+                return null;
+            }
+            
+            deleteQuestion(examId, questionId) {
+                const exam = this.exams.find(e => e.id === examId);
+                if (exam) {
+                    exam.questions = exam.questions.filter(q => q.id !== questionId);
+                    this.saveData();
+                    return true;
+                }
+                return false;
+            }
+            
+            // Student methods
+            studentLogin(studentData, examPassword, school) {
+                const exam = this.exams.find(e => 
+                    e.password === examPassword && 
+                    e.school === school && 
+                    e.status === 'active'
+                );
+                
+                if (!exam) return null;
+                
+                let student = this.students.find(s => 
+                    s.examId === exam.id && 
+                    s.studentNumber === studentData.studentNumber
+                );
+                
+                if (!student) {
+                    student = {
+                        id: 'STU' + Date.now(),
+                        examId: exam.id,
+                        ...studentData,
+                        startTime: new Date().toISOString(),
+                        status: 'working',
+                        answers: []
+                    };
+                    this.students.push(student);
+                    this.saveData();
+                }
+                
+                this.currentStudent = student;
+                this.currentExam = exam;
+                
+                return { student, exam };
+            }
+            
+            saveStudentAnswer(questionId, answerText) {
+                if (!this.currentStudent) return false;
+                
+                const existingIndex = this.currentStudent.answers.findIndex(a => a.questionId === questionId);
+                
+                if (existingIndex !== -1) {
+                    this.currentStudent.answers[existingIndex].answerText = answerText;
+                    this.currentStudent.answers[existingIndex].savedAt = new Date().toISOString();
+                } else {
+                    this.currentStudent.answers.push({
+                        questionId,
+                        answerText,
+                        savedAt: new Date().toISOString()
+                    });
+                }
+                
+                this.saveData();
+                return true;
+            }
+            
+            submitStudentExam() {
+                if (!this.currentStudent) return false;
+                
+                this.currentStudent.status = 'submitted';
+                this.currentStudent.endTime = new Date().toISOString();
+                this.saveData();
+                
+                return true;
+            }
+            
+            // Grading methods
+            getStudentsForGrading(examId) {
+                return this.students.filter(s => 
+                    s.examId === examId && 
+                    s.status === 'submitted'
+                );
+            }
+            
+            getStudentAnswers(studentId) {
+                const student = this.students.find(s => s.id === studentId);
+                if (!student) return null;
+                
+                const exam = this.exams.find(e => e.id === student.examId);
+                if (!exam) return null;
+                
+                return { student, exam, answers: student.answers };
+            }
+            
+            saveGrade(studentId, grades) {
+                const student = this.students.find(s => s.id === studentId);
+                if (!student) return null;
+                
+                const exam = this.exams.find(e => e.id === student.examId);
+                if (!exam) return null;
+                
+                const maxScore = exam.questions.reduce((sum, q) => sum + q.weight, 0);
+                const totalScore = grades.reduce((sum, g) => sum + g.score, 0);
+                
+                const result = {
+                    studentId,
+                    examId: exam.id,
+                    grades,
+                    gradedBy: this.currentUser.id,
+                    gradedAt: new Date().toISOString(),
+                    totalScore,
+                    maxScore,
+                    percentage: (totalScore / maxScore) * 100
+                };
+                
+                this.results.push(result);
+                student.status = 'graded';
+                this.saveData();
+                
+                return result;
+            }
+            
+            // Getter methods
+            getAllExams() {
+                return this.exams;
+            }
+            
+            getExamById(examId) {
+                return this.exams.find(e => e.id === examId);
+            }
+            
+            getResultsForExam(examId) {
+                return this.results.filter(r => r.examId === examId);
+            }
+        }
+        
+        // UI Manager
+        class UIManager {
+            constructor(system) {
+                this.system = system;
+                this.currentQuestion = 1;
+                this.studentTimer = null;
+                this.timeLeft = 0;
+                this.init();
+            }
+            
+            init() {
+                // Apply theme from settings
+                this.updateThemeButtons();
+                
+                // Role selection
+                document.getElementById('studentRoleBtn').addEventListener('click', () => this.showStudentLogin());
+                document.getElementById('adminRoleBtn').addEventListener('click', () => this.showAdminLogin());
+                
+                // Login buttons
+                document.getElementById('studentLoginBtn').addEventListener('click', () => this.handleStudentLogin());
+                document.getElementById('adminLoginBtn').addEventListener('click', () => this.handleAdminLogin());
+                
+                // Settings
+                document.getElementById('settingsBtn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.toggleSettingsPanel();
+                });
+                
+                document.getElementById('userInfoBtn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.toggleSettingsPanel();
+                });
+                
+                // Theme toggles
+                document.getElementById('lightThemeBtn').addEventListener('click', () => this.setTheme('light'));
+                document.getElementById('darkThemeBtn').addEventListener('click', () => this.setTheme('dark'));
+                
+                // Admin settings
+                document.getElementById('updateAdminBtn').addEventListener('click', () => this.updateAdminCredentials());
+                
+                // Logout
+                document.getElementById('logoutBtn').addEventListener('click', () => this.logout());
+                
+                // Close settings when clicking outside
+                document.addEventListener('click', (e) => {
+                    const settingsPanel = document.getElementById('settingsPanel');
+                    const settingsBtn = document.getElementById('settingsBtn');
+                    const userInfoBtn = document.getElementById('userInfoBtn');
+                    
+                    if (!settingsPanel.contains(e.target) && 
+                        !settingsBtn.contains(e.target) && 
+                        !userInfoBtn.contains(e.target) && 
+                        settingsPanel.classList.contains('active')) {
+                        settingsPanel.classList.remove('active');
+                    }
+                });
+                
+                // Tabs
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        const tabId = e.currentTarget.dataset.tab;
+                        this.switchTab(tabId);
+                    });
+                });
+                
+                // Exam creation
+                document.getElementById('createExamBtn').addEventListener('click', () => this.createExam());
+                
+                // Question management
+                document.getElementById('addQuestionBtn').addEventListener('click', () => this.addQuestion());
+                document.getElementById('selectExam').addEventListener('change', (e) => {
+                    if (e.target.value) this.loadQuestionsList(e.target.value);
+                });
+                
+                // Grading
+                document.getElementById('selectExamForGrading').addEventListener('change', (e) => {
+                    if (e.target.value) this.loadStudentsForGrading(e.target.value);
+                });
+                
+                // Results
+                document.getElementById('selectExamForResults').addEventListener('change', (e) => {
+                    if (e.target.value) this.loadResultsTable(e.target.value);
+                });
+                
+                // Student exam
+                document.getElementById('saveAnswersBtn').addEventListener('click', () => {
+                    this.saveCurrentAnswer();
+                    this.showAlert('Jawaban disimpan!', 'success');
+                });
+                
+                document.getElementById('submitExamBtn').addEventListener('click', () => this.showSubmitModal());
+                document.getElementById('confirmSubmitBtn').addEventListener('click', () => this.submitExam());
+                document.getElementById('cancelSubmitBtn').addEventListener('click', () => this.hideModal('submitModal'));
+                document.getElementById('backToHomeBtn').addEventListener('click', () => this.logout());
+                
+                // Grading modal
+                document.getElementById('saveGradeBtn').addEventListener('click', () => this.saveGrade());
+                document.getElementById('cancelGradeBtn').addEventListener('click', () => this.hideModal('gradeModal'));
+                
+                // Refresh
+                document.getElementById('refreshExamsBtn').addEventListener('click', () => this.loadExamsList());
+                
+                // Set default exam date
+                const tomorrow = new Date(Date.now() + 86400000);
+                document.getElementById('examDate').value = tomorrow.toISOString().slice(0, 16);
+                
+                // Show student login by default
+                this.showStudentLogin();
+            }
+            
+            // Theme management
+            updateThemeButtons() {
+                const isDark = this.system.settings.theme === 'dark';
+                document.getElementById('lightThemeBtn').classList.toggle('active', !isDark);
+                document.getElementById('darkThemeBtn').classList.toggle('active', isDark);
+            }
+            
+            setTheme(theme) {
+                this.system.settings.theme = theme;
+                this.system.saveData();
+                this.system.applyTheme();
+                this.updateThemeButtons();
+                this.showAlert(`Tema ${theme === 'light' ? 'terang' : 'gelap'} diaktifkan`, 'info');
+            }
+            
+            // Settings panel
+            toggleSettingsPanel() {
+                const settingsPanel = document.getElementById('settingsPanel');
+                const isAdmin = this.system.currentUser?.type === 'admin';
+                
+                // Show/hide admin settings based on user role
+                document.getElementById('adminSettingsGroup').classList.toggle('hidden', !isAdmin);
+                
+                settingsPanel.classList.toggle('active');
+            }
+            
+            // Admin credentials update
+            updateAdminCredentials() {
+                const currentPassword = document.getElementById('adminCurrentPassword').value.trim();
+                const newUsername = document.getElementById('adminNewUsername').value.trim();
+                const newPassword = document.getElementById('adminNewPassword').value.trim();
+                
+                if (!currentPassword) {
+                    this.showAlert('Masukkan password saat ini', 'danger');
+                    return;
+                }
+                
+                if (!newUsername && !newPassword) {
+                    this.showAlert('Masukkan username atau password baru', 'danger');
+                    return;
+                }
+                
+                const result = this.system.updateAdminCredentials(currentPassword, newUsername, newPassword);
+                
+                if (result.success) {
+                    this.showAlert(result.message, 'success');
+                    if (this.system.currentUser) {
+                        this.updateUserInfo(result.admin.name, 'Admin');
+                    }
+                    
+                    // Clear form
+                    document.getElementById('adminCurrentPassword').value = '';
+                    document.getElementById('adminNewUsername').value = '';
+                    document.getElementById('adminNewPassword').value = '';
+                    
+                    // Close settings panel
+                    document.getElementById('settingsPanel').classList.remove('active');
+                } else {
+                    this.showAlert(result.message, 'danger');
+                }
+            }
+            
+            // Login handling
+            showStudentLogin() {
+                document.getElementById('studentLoginForm').classList.remove('hidden');
+                document.getElementById('adminLoginForm').classList.add('hidden');
+                document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById('studentRoleBtn').classList.add('active');
+            }
+            
+            showAdminLogin() {
+                document.getElementById('studentLoginForm').classList.add('hidden');
+                document.getElementById('adminLoginForm').classList.remove('hidden');
+                document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById('adminRoleBtn').classList.add('active');
+            }
+            
+            handleStudentLogin() {
+                const studentData = {
+                    name: document.getElementById('studentName').value.trim(),
+                    school: document.getElementById('studentSchool').value.trim(),
+                    studentClass: document.getElementById('studentClass').value.trim(),
+                    studentNumber: document.getElementById('studentNumber').value.trim()
+                };
+                
+                const password = document.getElementById('studentPassword').value.trim();
+                const school = studentData.school;
+                
+                if (!studentData.name || !school || !studentData.studentClass || !studentData.studentNumber || !password) {
+                    this.showAlert('Harap lengkapi semua data!', 'danger');
+                    return;
+                }
+                
+                const result = this.system.studentLogin(studentData, password, school);
+                
+                if (result) {
+                    this.system.currentUser = { type: 'student', name: studentData.name };
+                    this.updateUserInfo(studentData.name, 'Siswa');
+                    document.getElementById('pageSubtitle').textContent = 'Ujian Siswa';
+                    this.showMainApp();
+                    this.showStudentExam();
+                    document.getElementById('studentLoginForm').reset();
+                } else {
+                    this.showAlert('Login gagal. Periksa password dan nama sekolah!', 'danger');
+                }
+            }
+            
+            handleAdminLogin() {
+                const username = document.getElementById('adminUsername').value.trim();
+                const password = document.getElementById('adminPassword').value.trim();
+                
+                if (!username || !password) {
+                    this.showAlert('Harap lengkapi username dan password!', 'danger');
+                    return;
+                }
+                
+                if (this.system.adminLogin(username, password)) {
+                    this.updateUserInfo(this.system.currentUser.name, 'Admin');
+                    document.getElementById('pageSubtitle').textContent = 'Dashboard Admin';
+                    this.showMainApp();
+                    this.showAdminDashboard();
+                    document.getElementById('adminLoginForm').reset();
+                } else {
+                    this.showAlert('Username atau password salah!', 'danger');
+                }
+            }
+            
+            updateUserInfo(name, role) {
+                document.getElementById('userName').textContent = name;
+                document.getElementById('userRole').textContent = role;
+                document.getElementById('userIcon').className = role === 'Admin' ? 'fas fa-user-tie' : 'fas fa-user-graduate';
+            }
+            
+            showMainApp() {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+            }
+            
+            logout() {
+                this.system.currentUser = null;
+                this.system.currentStudent = null;
+                this.system.currentExam = null;
+                
+                if (this.studentTimer) {
+                    clearInterval(this.studentTimer);
+                    this.studentTimer = null;
+                }
+                
+                document.getElementById('mainApp').classList.add('hidden');
+                document.getElementById('loginPage').classList.remove('hidden');
+                document.getElementById('settingsPanel').classList.remove('active');
+                this.showStudentLogin();
+                this.showAlert('Anda telah logout', 'info');
+            }
+            
+            // Admin dashboard
+            showAdminDashboard() {
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                document.getElementById('studentExam').classList.add('hidden');
+                this.loadAdminData();
+            }
+            
+            loadAdminData() {
+                this.loadExamsList();
+                this.loadExamSelectors();
+                this.loadResultsTable();
+            }
+            
+            loadExamsList() {
+                const examsList = document.getElementById('examsList');
+                const exams = this.system.getAllExams();
+                
+                examsList.innerHTML = '';
+                
+                if (exams.length === 0) {
+                    examsList.innerHTML = `
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            Belum ada ujian yang dibuat.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                exams.forEach(exam => {
+                    const examCard = this.createExamCard(exam);
+                    examsList.appendChild(examCard);
+                });
+            }
+            
+            createExamCard(exam) {
+                const div = document.createElement('div');
+                div.className = 'exam-card';
+                
+                const startDate = new Date(exam.startDate);
+                const formattedDate = startDate.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                // Get status color
+                let statusColor = 'var(--secondary)';
+                let statusText = exam.status;
+                if (exam.status === 'draft') {
+                    statusColor = 'var(--warning)';
+                    statusText = 'Draf';
+                } else if (exam.status === 'completed') {
+                    statusColor = 'var(--info)';
+                    statusText = 'Selesai';
+                }
+                
+                div.innerHTML = `
+                    <div class="exam-header">
+                        <div class="exam-title">${exam.title}</div>
+                        <div class="exam-status" style="background: ${statusColor}">${statusText}</div>
+                    </div>
+                    <div class="exam-body">
+                        <div class="exam-meta">
+                            <div class="exam-meta-item">
+                                <i class="fas fa-book"></i>
+                                <span>${exam.subject}</span>
+                            </div>
+                            <div class="exam-meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>${exam.duration} menit</span>
+                            </div>
+                            <div class="exam-meta-item">
+                                <i class="fas fa-school"></i>
+                                <span>${exam.school}</span>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Tanggal:</strong> ${formattedDate}</p>
+                        <p><strong>Soal:</strong> ${exam.questions?.length || 0} esai</p>
+                        <p><strong>Password:</strong> ${exam.password}</p>
+                        
+                        <div class="exam-actions">
+                            <button class="btn btn-primary btn-sm" onclick="ui.editExam('${exam.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-warning btn-sm" onclick="ui.toggleExamStatus('${exam.id}')">
+                                <i class="fas fa-power-off"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="ui.deleteExam('${exam.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                return div;
+            }
+            
+            loadExamSelectors() {
+                const exams = this.system.getAllExams();
+                const selectors = ['selectExam', 'selectExamForGrading', 'selectExamForResults'];
+                
+                selectors.forEach(selectorId => {
+                    const select = document.getElementById(selectorId);
+                    select.innerHTML = '<option value="">Pilih ujian...</option>';
+                    
+                    exams.forEach(exam => {
+                        const option = document.createElement('option');
+                        option.value = exam.id;
+                        option.textContent = `${exam.title} (${exam.subject})`;
+                        select.appendChild(option);
+                    });
+                });
+            }
+            
+            createExam() {
+                const examData = {
+                    title: document.getElementById('examTitle').value.trim(),
+                    subject: document.getElementById('examSubject').value.trim(),
+                    duration: parseInt(document.getElementById('examDuration').value),
+                    password: document.getElementById('examPassword').value.trim(),
+                    school: document.getElementById('examSchool').value.trim(),
+                    startDate: document.getElementById('examDate').value,
+                    instructions: document.getElementById('examInstructions').value.trim()
+                };
+                
+                if (!examData.title || !examData.subject || !examData.duration || 
+                    !examData.password || !examData.school || !examData.startDate) {
+                    this.showAlert('Harap lengkapi semua field!', 'danger');
+                    return;
+                }
+                
+                const newExam = this.system.createExam(examData);
+                
+                if (newExam) {
+                    this.showAlert('Ujian berhasil dibuat!', 'success');
+                    this.loadExamsList();
+                    this.loadExamSelectors();
+                    this.switchTab('exams');
+                    
+                    // Reset form
+                    document.getElementById('examTitle').value = '';
+                    document.getElementById('examSubject').value = '';
+                    document.getElementById('examDuration').value = '120';
+                    document.getElementById('examPassword').value = '';
+                    document.getElementById('examSchool').value = '';
+                    document.getElementById('examInstructions').value = '';
+                }
+            }
+            
+            addQuestion() {
+                const examId = document.getElementById('selectExam').value;
+                if (!examId) {
+                    this.showAlert('Pilih ujian terlebih dahulu!', 'danger');
+                    return;
+                }
+                
+                const questionData = {
+                    text: document.getElementById('questionText').value.trim(),
+                    answerKey: document.getElementById('questionAnswerKey').value.trim(),
+                    weight: parseInt(document.getElementById('questionWeight').value)
+                };
+                
+                if (!questionData.text) {
+                    this.showAlert('Masukkan pertanyaan!', 'danger');
+                    return;
+                }
+                
+                const question = this.system.addQuestion(examId, questionData);
+                
+                if (question) {
+                    this.showAlert('Soal berhasil ditambahkan!', 'success');
+                    this.loadQuestionsList(examId);
+                    
+                    // Reset form
+                    document.getElementById('questionText').value = '';
+                    document.getElementById('questionAnswerKey').value = '';
+                    document.getElementById('questionWeight').value = '10';
+                }
+            }
+            
+            loadQuestionsList(examId) {
+                const questionsList = document.getElementById('questionsList');
+                const exam = this.system.getExamById(examId);
+                
+                if (!exam) return;
+                
+                questionsList.innerHTML = '';
+                
+                if (!exam.questions || exam.questions.length === 0) {
+                    questionsList.innerHTML = `
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            Belum ada soal untuk ujian ini.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                exam.questions.forEach((question, index) => {
+                    const questionItem = document.createElement('div');
+                    questionItem.className = 'question-item';
+                    
+                    questionItem.innerHTML = `
+                        <div class="question-number">${index + 1}</div>
+                        <h4>${question.text}</h4>
+                        
+                        <div class="answer-section">
+                            <label class="answer-label">Kunci Jawaban:</label>
+                            <p>${question.answerKey || 'Tidak ada kunci jawaban'}</p>
+                        </div>
+                        
+                        <div class="d-flex justify-between mt-2">
+                            <div>
+                                <span class="badge" style="background: var(--primary); color: white;">
+                                    <i class="fas fa-star"></i> Bobot: ${question.weight}
+                                </span>
+                            </div>
+                            <button class="btn btn-danger btn-sm" onclick="ui.deleteQuestion('${examId}', ${question.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    questionsList.appendChild(questionItem);
+                });
+            }
+            
+            loadStudentsForGrading(examId) {
+                const gradingList = document.getElementById('gradingList');
+                const students = this.system.getStudentsForGrading(examId);
+                
+                gradingList.innerHTML = '';
+                
+                if (students.length === 0) {
+                    gradingList.innerHTML = `
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            Belum ada jawaban siswa yang perlu dinilai.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                students.forEach(student => {
+                    const exam = this.system.getExamById(student.examId);
+                    if (!exam) return;
+                    
+                    const studentCard = document.createElement('div');
+                    studentCard.className = 'grading-section';
+                    
+                    studentCard.innerHTML = `
+                        <div class="d-flex justify-between align-center mb-2">
+                            <div>
+                                <h4><i class="fas fa-user-graduate"></i> ${student.name}</h4>
+                                <p>${student.school} - ${student.studentClass}</p>
+                            </div>
+                            <button class="btn btn-success btn-sm" onclick="ui.openGradingModal('${student.id}')">
+                                <i class="fas fa-check-double"></i> Nilai
+                            </button>
+                        </div>
+                        
+                        <div class="student-answer">
+                            <p><i class="fas fa-clock"></i> Mulai: ${new Date(student.startTime).toLocaleString()}</p>
+                            <p><i class="fas fa-paper-plane"></i> Dikumpulkan: ${student.endTime ? new Date(student.endTime).toLocaleString() : 'Belum'}</p>
+                            <p><i class="fas fa-check-circle"></i> Status: ${student.status}</p>
+                        </div>
+                    `;
+                    
+                    gradingList.appendChild(studentCard);
+                });
+            }
+            
+            openGradingModal(studentId) {
+                const data = this.system.getStudentAnswers(studentId);
+                if (!data) return;
+                
+                const { student, exam, answers } = data;
+                let modalBody = '';
+                
+                exam.questions.forEach((question, index) => {
+                    const studentAnswer = answers.find(a => a.questionId === question.id);
+                    const answerText = studentAnswer?.answerText || 'Belum dijawab';
+                    
+                    modalBody += `
+                        <div class="question-item mb-2">
+                            <h4>Soal ${index + 1} (Bobot: ${question.weight})</h4>
+                            <p><strong>${question.text}</strong></p>
+                            
+                            <div class="student-answer mt-1">
+                                <label class="answer-label">Jawaban Siswa:</label>
+                                <p>${answerText}</p>
+                            </div>
+                            
+                            <div class="student-answer mt-1">
+                                <label class="answer-label">Kunci Jawaban:</label>
+                                <p>${question.answerKey || 'Tidak tersedia'}</p>
+                            </div>
+                            
+                            <div class="form-group mt-1">
+                                <label class="form-label">Nilai (0-${question.weight})</label>
+                                <input type="number" class="score-input" id="score-${question.id}" 
+                                       min="0" max="${question.weight}" value="0" 
+                                       data-question-id="${question.id}">
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('gradeModalBody').innerHTML = `
+                    <div class="student-info mb-2">
+                        <h4><i class="fas fa-user-graduate"></i> ${student.name}</h4>
+                        <p>${student.school} - ${student.studentClass}</p>
+                    </div>
+                    ${modalBody}
+                `;
+                
+                document.getElementById('gradeModalBody').dataset.studentId = studentId;
+                this.showModal('gradeModal');
+            }
+            
+            saveGrade() {
+                const studentId = document.getElementById('gradeModalBody').dataset.studentId;
+                const scoreInputs = document.querySelectorAll('.score-input');
+                
+                const grades = Array.from(scoreInputs).map(input => ({
+                    questionId: parseInt(input.dataset.questionId),
+                    score: parseInt(input.value)
+                }));
+                
+                const result = this.system.saveGrade(studentId, grades);
+                
+                if (result) {
+                    this.showAlert('Nilai berhasil disimpan!', 'success');
+                    this.hideModal('gradeModal');
+                    this.loadStudentsForGrading(this.system.currentExam?.id);
+                    this.loadResultsTable(this.system.currentExam?.id);
+                }
+            }
+            
+            loadResultsTable(examId = null) {
+                if (!examId) {
+                    examId = document.getElementById('selectExamForResults').value;
+                }
+                
+                const tableBody = document.getElementById('resultsTableBody');
+                
+                if (!examId) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                Pilih ujian terlebih dahulu
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                const results = this.system.getResultsForExam(examId);
+                tableBody.innerHTML = '';
+                
+                if (results.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                Belum ada hasil ujian
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                results.forEach((result, index) => {
+                    const student = this.system.students.find(s => s.id === result.studentId);
+                    if (!student) return;
+                    
+                    const percentage = result.percentage;
+                    let grade = 'E';
+                    let color = 'var(--danger)';
+                    
+                    if (percentage >= 85) { grade = 'A'; color = 'var(--secondary)'; }
+                    else if (percentage >= 70) { grade = 'B'; color = 'var(--primary)'; }
+                    else if (percentage >= 60) { grade = 'C'; color = 'var(--warning)'; }
+                    else if (percentage >= 50) { grade = 'D'; color = 'var(--info)'; }
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${student.name}</td>
+                        <td>${student.studentClass}</td>
+                        <td><strong>${result.totalScore}/${result.maxScore} (${percentage.toFixed(1)}%)</strong></td>
+                        <td>
+                            <span class="badge" style="background: ${color}; color: white;">
+                                ${grade}
+                            </span>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+            }
+            
+            // Student exam
+            showStudentExam() {
+                document.getElementById('adminDashboard').classList.add('hidden');
+                document.getElementById('studentExam').classList.remove('hidden');
+                this.startStudentExam();
+            }
+            
+            startStudentExam() {
+                const exam = this.system.currentExam;
+                const student = this.system.currentStudent;
+                
+                if (!exam || !student) return;
+                
+                // Update UI
+                document.getElementById('examTitleDisplay').textContent = exam.title;
+                document.getElementById('examSubjectDisplay').textContent = exam.subject;
+                document.getElementById('studentNameDisplay').textContent = student.name;
+                document.getElementById('examInstructionsDisplay').textContent = exam.instructions;
+                document.getElementById('examDurationDisplay').textContent = `${exam.duration} menit`;
+                
+                // Setup timer
+                const startTime = new Date(student.startTime);
+                const endTime = new Date(startTime.getTime() + (exam.duration * 60000));
+                this.timeLeft = Math.max(0, Math.floor((endTime - new Date()) / 1000));
+                
+                if (this.timeLeft <= 0) {
+                    this.timeLeft = exam.duration * 60;
+                }
+                
+                this.startTimer();
+                this.loadQuestions();
+            }
+            
+            startTimer() {
+                this.updateTimerDisplay();
+                
+                this.studentTimer = setInterval(() => {
+                    this.timeLeft--;
+                    this.updateTimerDisplay();
+                    
+                    if (this.timeLeft <= 0) {
+                        clearInterval(this.studentTimer);
+                        this.submitExam();
+                        this.showAlert('Waktu habis! Jawaban otomatis dikumpulkan.', 'warning');
+                    }
+                }, 1000);
+            }
+            
+            updateTimerDisplay() {
+                const minutes = Math.floor(this.timeLeft / 60);
+                const seconds = this.timeLeft % 60;
+                
+                document.getElementById('timerDisplay').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                document.getElementById('remainingTimeModal').textContent = 
+                    `${minutes} menit ${seconds} detik`;
+                    
+                if (this.timeLeft < 300) {
+                    document.getElementById('timer').style.background = 'var(--timer-bg)';
+                }
+            }
+            
+            loadQuestions() {
+                const container = document.getElementById('questionsContainer');
+                const exam = this.system.currentExam;
+                
+                if (!exam || !exam.questions) {
+                    container.innerHTML = '<div class="alert alert-danger">Tidak ada soal tersedia</div>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                
+                exam.questions.forEach((question, index) => {
+                    const studentAnswer = this.system.currentStudent?.answers?.find(
+                        a => a.questionId === question.id
+                    );
+                    
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question-container';
+                    questionDiv.dataset.questionId = question.id;
+                    
+                    questionDiv.innerHTML = `
+                        <div class="d-flex justify-between align-center mb-2">
+                            <h3><i class="fas fa-question-circle"></i> Soal ${index + 1}</h3>
+                            <span class="badge" style="background: var(--dark); color: white;">
+                                Bobot: ${question.weight}
+                            </span>
+                        </div>
+                        
+                        <div class="question-text mb-2">
+                            <p>${question.text}</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Jawaban Anda:</label>
+                            <textarea class="essay-answer" data-question-id="${question.id}" 
+                                      placeholder="Ketik jawaban Anda di sini..."
+                                      oninput="ui.saveAnswer(${question.id}, this.value)">${studentAnswer?.answerText || ''}</textarea>
+                        </div>
+                        
+                        <div class="answer-info mt-2">
+                            ${studentAnswer ? `
+                                <p class="text-success">
+                                    <i class="fas fa-save"></i> Tersimpan: ${new Date(studentAnswer.savedAt).toLocaleTimeString()}
+                                </p>
+                            ` : ''}
+                        </div>
+                    `;
+                    
+                    container.appendChild(questionDiv);
+                });
+            }
+            
+            saveAnswer(questionId, answerText) {
+                this.system.saveStudentAnswer(questionId, answerText);
+            }
+            
+            saveCurrentAnswer() {
+                const activeQuestion = document.querySelector('.question-container:first-child');
+                if (!activeQuestion) return;
+                
+                const questionId = parseInt(activeQuestion.dataset.questionId);
+                const answerText = activeQuestion.querySelector('.essay-answer').value;
+                this.saveAnswer(questionId, answerText);
+            }
+            
+            showSubmitModal() {
+                this.showModal('submitModal');
+            }
+            
+            submitExam() {
+                this.hideModal('submitModal');
+                
+                if (this.studentTimer) {
+                    clearInterval(this.studentTimer);
+                    this.studentTimer = null;
+                }
+                
+                if (this.system.submitStudentExam()) {
+                    this.showModal('resultModal');
+                } else {
+                    this.showAlert('Gagal mengumpulkan jawaban!', 'danger');
+                }
+            }
+            
+            // Utility methods
+            switchTab(tabId) {
+                document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+                document.getElementById(`${tabId}Tab`).classList.add('active');
+                
+                if (tabId === 'questions') {
+                    const examId = document.getElementById('selectExam').value;
+                    if (examId) this.loadQuestionsList(examId);
+                }
+            }
+            
+            showModal(modalId) {
+                document.getElementById(modalId).style.display = 'flex';
+            }
+            
+            hideModal(modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            }
+            
+            showAlert(message, type = 'info') {
+                // Remove existing alerts
+                const existingAlert = document.querySelector('.alert');
+                if (existingAlert) existingAlert.remove();
+                
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${type}`;
+                alert.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <div>${message}</div>
+                `;
+                
+                // Find appropriate container for alert
+                const container = document.querySelector('.tab-content.active') || 
+                                 document.querySelector('.exam-section') || 
+                                 document.querySelector('.dashboard');
+                
+                if (container) {
+                    container.prepend(alert);
+                }
+                
+                setTimeout(() => {
+                    if (alert.parentNode) alert.remove();
+                }, 5000);
+            }
+            
+            // Methods for onclick handlers
+            editExam(examId) {
+                const exam = this.system.getExamById(examId);
+                if (!exam) return;
+                
+                this.switchTab('create');
+                
+                document.getElementById('examTitle').value = exam.title;
+                document.getElementById('examSubject').value = exam.subject;
+                document.getElementById('examDuration').value = exam.duration;
+                document.getElementById('examPassword').value = exam.password;
+                document.getElementById('examSchool').value = exam.school;
+                document.getElementById('examDate').value = exam.startDate.substring(0, 16);
+                document.getElementById('examInstructions').value = exam.instructions || '';
+                
+                this.showAlert('Edit mode: ' + exam.title, 'info');
+            }
+            
+            toggleExamStatus(examId) {
+                const exam = this.system.getExamById(examId);
+                if (!exam) return;
+                
+                exam.status = exam.status === 'active' ? 'draft' : 'active';
+                this.system.saveData();
+                this.loadExamsList();
+                this.showAlert(`Status diubah: ${exam.status}`, 'success');
+            }
+            
+            deleteExam(examId) {
+                if (!confirm('Hapus ujian ini?')) return;
+                
+                this.system.exams = this.system.exams.filter(e => e.id !== examId);
+                this.system.saveData();
+                this.loadExamsList();
+                this.loadExamSelectors();
+                this.showAlert('Ujian dihapus', 'success');
+            }
+            
+            deleteQuestion(examId, questionId) {
+                if (!confirm('Hapus soal ini?')) return;
+                
+                if (this.system.deleteQuestion(examId, questionId)) {
+                    this.loadQuestionsList(examId);
+                    this.showAlert('Soal dihapus', 'success');
+                }
+            }
+        }
+        
+        // Initialize the system
+        const examSystem = new ExamSystem();
+        const ui = new UIManager(examSystem);
+        
+        // Expose to global scope for onclick handlers
+        window.ui = ui;
+        window.examSystem = examSystem;
+        
+        // Prevent form submission on Enter key in login forms
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const activeElement = document.activeElement;
+                if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+                    e.preventDefault();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
